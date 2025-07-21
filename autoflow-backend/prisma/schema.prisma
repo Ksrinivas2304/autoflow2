@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(uuid())
+  email     String     @unique
+  password  String
+  name      String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  workflows Workflow[]
+  userIntegrations UserIntegration[]
+}
+
+model Workflow {
+  id        String   @id @default(uuid())
+  name      String
+  data      Json
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  runs      WorkflowRun[]
+}
+
+model UserIntegration {
+  id           String   @id @default(uuid())
+  user         User     @relation(fields: [userId], references: [id])
+  userId       String
+  provider     String   // e.g., 'slack', 'google', 'airtable'
+  accessToken  String
+  refreshToken String?
+  expiresAt    DateTime?
+  extra        Json?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([userId, provider])
+}
+
+model WorkflowRun {
+  id         String   @id @default(uuid())
+  workflow   Workflow @relation(fields: [workflowId], references: [id])
+  workflowId String
+  userId     String
+  status     String   // e.g., 'completed', 'failed'
+  result     Json?
+  startedAt  DateTime @default(now())
+  finishedAt DateTime?
+}
