@@ -75,7 +75,11 @@ const RunHistory = () => {
                   {run.finishedAt && <span className={styles.finishedAt}>Finished: {new Date(run.finishedAt).toLocaleString()}</span>}
                 </div>
                 <div className={styles.resultLabel}>Result:
-                  <pre className={styles.resultBox}>{JSON.stringify(run.result, null, 2)}</pre>
+                  <pre className={styles.resultBox}>
+                    {run.result && typeof run.result === 'object' && 'body' in run.result
+                      ? JSON.stringify(run.result.body, null, 2)
+                      : JSON.stringify(run.result, null, 2)}
+                  </pre>
                 </div>
               </div>
             ))}

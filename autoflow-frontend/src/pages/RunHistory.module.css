@@ -145,4 +145,7 @@
   max-height: 8rem;
   margin-top: 0.3rem;
   color: #334155;
+  width: 100%;
+  box-sizing: border-box;
+  word-break: break-all;
 } 

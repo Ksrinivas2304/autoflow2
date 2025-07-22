@@ -45,9 +45,14 @@ async function executeNode(node: any, userId: string, context: any = {}) {
       function getByPath(obj: any, path: string) {
         return path.split('.').reduce((o, k) => (o ? o[k] : ''), obj);
       }
-      const resolvedTo = to.replace(/{{\s*data\.([\w.]+)\s*}}/g, (_: string, k: string) => getByPath(context, k) || '');
-      const resolvedSubject = subject.replace(/{{\s*data\.([\w.]+)\s*}}/g, (_: string, k: string) => getByPath(context, k) || '');
-      const resolvedBody = body.replace(/{{\s*data\.([\w.]+)\s*}}/g, (_: string, k: string) => getByPath(context, k) || '');
+      // Merge context.body into context for template resolution
+      let templateContext = { ...context };
+      if (context.body && typeof context.body === 'object') {
+        templateContext = { ...context, ...context.body };
+      }
+      const resolvedTo = to.replace(/{{\s*data\.([\w.]+)\s*}}/g, (_: string, k: string) => getByPath(templateContext, k) || '');
+      const resolvedSubject = subject.replace(/{{\s*data\.([\w.]+)\s*}}/g, (_: string, k: string) => getByPath(templateContext, k) || '');
+      const resolvedBody = body.replace(/{{\s*data\.([\w.]+)\s*}}/g, (_: string, k: string) => getByPath(templateContext, k) || '');
       console.log('Resolved To:', resolvedTo, 'Raw To:', to, 'Context:', context);
       // Use Mailtrap or Gmail for dev
       const transporter = nodemailer.createTransport({
