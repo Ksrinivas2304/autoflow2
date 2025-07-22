@@ -45,6 +45,7 @@ Autoflow enables you to visually create, edit, and run automated workflows that 
 - npm or yarn
 - PostgreSQL database
 - Redis (for workflow queue)
+- BullMQ
 
 ### 1. Clone the repository
 ```sh
