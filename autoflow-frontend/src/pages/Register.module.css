@@ -1,0 +1,146 @@
+.pageBg {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  background: linear-gradient(135deg, #e0e7ff 0%, #fff 100%);
+}
+@media (min-width: 1024px) {
+  .pageBg {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.leftPanel {
+  display: none;
+  background: #2563eb;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+}
+@media (min-width: 1024px) {
+  .leftPanel {
+    display: flex;
+  }
+}
+.brandingBox {
+  max-width: 28rem;
+  text-align: center;
+}
+.logoIcon {
+  display: inline-block;
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+.logoSvg {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+.brandingTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+.brandingSubtitle {
+  font-size: 1.15rem;
+  opacity: 0.9;
+}
+.formPanel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+.formCard {
+  width: 100%;
+  max-width: 26rem;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px 0 rgba(99,102,241,0.10);
+  border-radius: 1.5rem;
+  padding: 2.5rem 2rem;
+}
+.formHeader {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.formTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1e293b;
+}
+.formSubtitle {
+  font-size: 1rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+}
+.errorBox {
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #b91c1c;
+  font-size: 0.95rem;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.formBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.inputLabel {
+  display: block;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #334155;
+  margin-bottom: 0.25rem;
+}
+.inputField {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  border-radius: 0.85rem;
+  border: 1px solid #cbd5e1;
+  font-size: 1rem;
+  color: #1e293b;
+  background: #f8fafc;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.inputField:focus {
+  border: 1.5px solid #2563eb;
+  box-shadow: 0 0 0 2px #93c5fd44;
+}
+.submitButton {
+  width: 100%;
+  padding: 0.95rem 0;
+  border-radius: 0.85rem;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.submitButton:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.loginText {
+  text-align: center;
+  font-size: 1rem;
+  color: #64748b;
+  margin-top: 1.5rem;
+}
+.loginLink {
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: underline;
+  margin-left: 0.25rem;
+  cursor: pointer;
+} 

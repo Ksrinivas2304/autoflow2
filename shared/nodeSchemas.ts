@@ -46,6 +46,7 @@ export const nodeSchemas: Record<string, any> = {
       url: { type: "string", required: true, description: "API endpoint URL." },
       headers: { type: "object", required: false, description: "HTTP headers as a JSON object." },
       body: { type: "object", required: false, description: "Request body as a JSON object." },
+      queryParams: { type: "object", required: false, description: "Query parameters as a JSON object (e.g., { \"foo\": \"bar\" })" },
     },
   },
   if_else: {

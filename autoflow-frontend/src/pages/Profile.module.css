@@ -1,0 +1,107 @@
+.navbar {
+  width: 100%;
+  background: linear-gradient(90deg, #6366f1 0%, #2563eb 100%);
+  color: #fff;
+  padding: 0.7rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0 0 1.2rem 1.2rem;
+  box-shadow: 0 2px 12px 0 rgba(99,102,241,0.10);
+  margin-bottom: 2.5rem;
+}
+.logo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: #fff;
+}
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  font-size: 1.08rem;
+  font-weight: 500;
+}
+.logoutButton {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 0.7rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px 0 rgba(239,68,68,0.10);
+}
+.logoutButton:hover {
+  background: #dc2626;
+}
+.profileCard {
+  max-width: 32rem;
+  margin: 3.5rem auto 0 auto;
+  background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+  padding: 2.5rem 2rem;
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(30,41,59,0.18);
+  color: #fff;
+}
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+.avatar {
+  width: 4rem;
+  height: 4rem;
+  background: #475569;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+}
+.name {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 0.2rem;
+}
+.email {
+  color: #cbd5e1;
+  font-size: 1.1rem;
+}
+.detailsSection {
+  border-top: 1px solid #475569;
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+}
+.detailsTitle {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.detailsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.05rem;
+}
+.detailLabel {
+  color: #94a3b8;
+}
+.loading {
+  text-align: center;
+  margin-top: 5rem;
+  color: #334155;
+  font-size: 1.3rem;
+  font-weight: 600;
+} 

@@ -1,0 +1,132 @@
+.pageBg {
+  min-height: 100vh;
+  background: #f3f4f6;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 3.5rem;
+  padding: 0 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+  box-shadow: 0 1px 4px 0 rgba(30,41,59,0.04);
+}
+
+.navBrand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logoIcon {
+  display: inline-block;
+  width: 1.7rem;
+  height: 1.7rem;
+  margin-right: 0.3rem;
+  vertical-align: middle;
+}
+.logoSvg {
+  width: 1.7rem;
+  height: 1.7rem;
+}
+.brandText {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.formPanel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.formCard {
+  width: 100%;
+  max-width: 24rem;
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 4px 24px 0 rgba(30,41,59,0.08);
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formTitle {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #1e293b;
+  text-align: center;
+}
+
+.errorBox {
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #b91c1c;
+  font-size: 0.95rem;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  text-align: center;
+}
+
+.inputLabel {
+  display: block;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #334155;
+  margin-bottom: 0.25rem;
+}
+.inputField {
+  width: 100%;
+  padding: 0.8rem 1.1rem;
+  border-radius: 0.75rem;
+  border: 1px solid #cbd5e1;
+  font-size: 1rem;
+  color: #1e293b;
+  background: #f8fafc;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.inputField:focus {
+  border: 1.5px solid #2563eb;
+  box-shadow: 0 0 0 2px #93c5fd44;
+}
+.submitButton {
+  width: 100%;
+  padding: 0.9rem 0;
+  border-radius: 0.75rem;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.submitButton:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.registerText {
+  text-align: center;
+  font-size: 1rem;
+  color: #64748b;
+}
+.registerLink {
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: underline;
+  margin-left: 0.25rem;
+  cursor: pointer;
+} 

@@ -4,6 +4,8 @@ import prisma from '../models/prisma';
 import { nodeSchemas } from '../../../shared/nodeSchemas';
 import nodemailer from 'nodemailer';
 import axios from 'axios';
+import pdfParse from 'pdf-parse';
+import fetch from 'node-fetch';
 
 const connection = new IORedis(process.env.REDIS_URL || 'redis://localhost:6379', {
   maxRetriesPerRequest: null,
@@ -40,13 +42,18 @@ async function executeNode(node: any, userId: string, context: any = {}) {
     }
     case 'send_email': {
       const { provider, to, subject, body } = node.config;
-      const resolvedTo = to.replace(/{{\s*data\.(\w+)\s*}}/g, (_: string, k: string) => context[k] || '');
-      const resolvedSubject = subject.replace(/{{\s*data\.(\w+)\s*}}/g, (_: string, k: string) => context[k] || '');
-      const resolvedBody = body.replace(/{{\s*data\.(\w+)\s*}}/g, (_: string, k: string) => context[k] || '');
-      // Use Mailtrap for dev
+      function getByPath(obj: any, path: string) {
+        return path.split('.').reduce((o, k) => (o ? o[k] : ''), obj);
+      }
+      const resolvedTo = to.replace(/{{\s*data\.([\w.]+)\s*}}/g, (_: string, k: string) => getByPath(context, k) || '');
+      const resolvedSubject = subject.replace(/{{\s*data\.([\w.]+)\s*}}/g, (_: string, k: string) => getByPath(context, k) || '');
+      const resolvedBody = body.replace(/{{\s*data\.([\w.]+)\s*}}/g, (_: string, k: string) => getByPath(context, k) || '');
+      console.log('Resolved To:', resolvedTo, 'Raw To:', to, 'Context:', context);
+      // Use Mailtrap or Gmail for dev
       const transporter = nodemailer.createTransport({
         host: process.env.MAILTRAP_HOST,
         port: Number(process.env.MAILTRAP_PORT),
+        secure: process.env.MAILTRAP_PORT === '465',
         auth: {
           user: process.env.MAILTRAP_USER,
           pass: process.env.MAILTRAP_PASS,
@@ -77,10 +84,18 @@ async function executeNode(node: any, userId: string, context: any = {}) {
       break;
     }
     case 'api_request': {
-      const { method, url, headers, body } = node.config;
-      const res = await axios({ method, url, headers, data: body });
+      let { method, url, headers, body, queryParams } = node.config;
+      if (url && !/^https?:\/\//i.test(url)) {
+        url = 'http://' + url;
+      }
+      const res = await axios({ method, url, headers, data: body, params: queryParams });
       console.log(`API request to ${url} responded with status ${res.status}`);
-      break;
+      return {
+        status: res.status,
+        statusText: res.statusText,
+        headers: res.headers,
+        data: res.data,
+      };
     }
     case 'postgres': {
       const { query } = node.config;
@@ -88,6 +103,17 @@ async function executeNode(node: any, userId: string, context: any = {}) {
       const result = await prisma.$queryRawUnsafe(query);
       console.log('Postgres query result:', result);
       break;
+    }
+    case 'pdf_extract': {
+      const { fileUrl } = node.config;
+      if (!fileUrl) throw new Error('No PDF URL provided');
+      // Download the PDF
+      const response = await fetch(fileUrl);
+      if (!response.ok) throw new Error('Failed to download PDF');
+      const buffer = await response.buffer();
+      // Extract text
+      const data = await pdfParse(buffer);
+      return { text: data.text };
     }
     default: {
       // Mock for other nodes

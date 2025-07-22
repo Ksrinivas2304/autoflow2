@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import useAuthStore from '../store/auth';
 import { Link } from 'react-router-dom';
+import { HiOutlinePlus, HiOutlineTrash, HiOutlinePencilAlt, HiOutlineLightningBolt } from 'react-icons/hi';
+import styles from './Dashboard.module.css';
 
 interface Workflow {
   id: string;
@@ -73,40 +75,95 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
-      <form onSubmit={handleCreate} className="flex gap-2 mb-6">
-        <input
-          type="text"
-          placeholder="New workflow name"
-          className="p-2 rounded bg-gray-800 border border-gray-700 flex-1"
-          value={newName}
-          onChange={e => setNewName(e.target.value)}
-          required
-        />
-        <button type="submit" className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 font-bold" disabled={creating}>
-          {creating ? 'Creating...' : 'Create'}
-        </button>
-      </form>
-      {loading && <div>Loading...</div>}
-      {error && <div className="text-red-400 mb-2">{error}</div>}
-      <ul className="space-y-2">
-        {workflows.map(wf => (
-          <li key={wf.id} className="p-4 bg-gray-800 rounded flex items-center justify-between">
-            <span>{wf.name}</span>
-            <div className="flex gap-2">
-              <Link to={`/editor/${wf.id}`} className="text-blue-400 hover:underline">Edit</Link>
-              <button
-                className="text-red-400 hover:underline"
-                onClick={() => handleDelete(wf.id)}
-                disabled={deletingId === wf.id}
-              >
-                {deletingId === wf.id ? 'Deleting...' : 'Delete'}
-              </button>
+    <div className={styles.pageBg}>
+      {/* Hero Header */}
+      <div className={styles.heroHeader}>
+        <div className={styles.heroContent}>
+          <div className={styles.heroIconWrap}>
+            <span className={styles.heroIconBg}>
+              <HiOutlineLightningBolt className={styles.heroIcon} />
+            </span>
+          </div>
+          <h1 className={styles.heroTitle}>Autoflow Dashboard</h1>
+          <p className={styles.heroSubtitle}>Visual automation for everyone. Build, run, and manage your workflows with ease.</p>
+        </div>
+        <div className={styles.heroGradient} />
+      </div>
+      {/* Floating Card for Workflows */}
+      <div className={styles.cardPanel}>
+        <div className={styles.card}>
+          {/* Create Workflow */}
+          <form onSubmit={handleCreate} className={styles.createForm}>
+            <input
+              type="text"
+              placeholder="New workflow name"
+              className={styles.createInput}
+              value={newName}
+              onChange={e => setNewName(e.target.value)}
+              required
+              disabled={creating}
+            />
+            <button
+              type="submit"
+              className={styles.createButton}
+              disabled={creating}
+            >
+              <HiOutlinePlus className={styles.createButtonIcon} />
+              {creating ? 'Creating...' : 'Create'}
+            </button>
+          </form>
+          {/* Feedback */}
+          {loading && (
+            <div className={styles.loadingText}>Loading workflows...</div>
+          )}
+          {error && (
+            <div className={styles.errorBox}>{error}</div>
+          )}
+          {/* Empty State */}
+          {!loading && workflows.length === 0 && !error && (
+            <div className={styles.emptyState}>
+              <HiOutlineLightningBolt className={styles.emptyIcon} />
+              <div className={styles.emptyTitle}>No workflows yet</div>
+              <div className={styles.emptySubtitle}>Start by creating your first workflow above!</div>
             </div>
-          </li>
-        ))}
-      </ul>
+          )}
+          {/* Workflow List */}
+          <div className={styles.workflowList}>
+            {workflows.map(wf => (
+              <div
+                key={wf.id}
+                className={styles.workflowItem}
+              >
+                <div className={styles.workflowInfo}>
+                  <span className={styles.workflowIcon}>
+                    <HiOutlinePencilAlt className={styles.workflowIconSvg} />
+                  </span>
+                  <div>
+                    <div className={styles.workflowName}>{wf.name}</div>
+                    <div className={styles.workflowDate}>Created {new Date(wf.createdAt).toLocaleDateString()}</div>
+                  </div>
+                </div>
+                <div className={styles.workflowActions}>
+                  <Link
+                    to={`/editor/${wf.id}`}
+                    className={styles.editButton}
+                  >
+                    <HiOutlinePencilAlt className={styles.editButtonIcon} /> Edit
+                  </Link>
+                  <button
+                    className={styles.deleteButton}
+                    onClick={() => handleDelete(wf.id)}
+                    disabled={deletingId === wf.id}
+                  >
+                    <HiOutlineTrash className={styles.deleteButtonIcon} />
+                    {deletingId === wf.id ? 'Deleting...' : 'Delete'}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

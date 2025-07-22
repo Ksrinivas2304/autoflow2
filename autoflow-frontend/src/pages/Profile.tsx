@@ -1,5 +1,6 @@
 import useAuthStore from '../store/auth';
 import { useNavigate } from 'react-router-dom';
+import styles from './Profile.module.css';
 
 const Profile = () => {
   const user = useAuthStore(s => s.user);
@@ -11,18 +12,42 @@ const Profile = () => {
     navigate('/login');
   };
 
-  if (!user) return <div>Loading...</div>;
+  if (!user) return <div className={styles.loading}>Loading...</div>;
 
   return (
-    <div className="max-w-md mx-auto mt-12 p-6 bg-gray-900 rounded shadow">
-      <h2 className="text-2xl font-bold mb-4">Profile</h2>
-      <div className="mb-4">
-        <div><span className="font-semibold">Name:</span> {user.name}</div>
-        <div><span className="font-semibold">Email:</span> {user.email}</div>
+    <div className={styles.profileCard}>
+      <nav className={styles.navbar}>
+        <span className={styles.logo}>Autoflow</span>
+        <div className={styles.userSection}>
+          <span>{user.name}</span>
+          <button onClick={handleLogout} className={styles.logoutButton}>Logout</button>
+        </div>
+      </nav>
+      <div className={styles.profileHeader}>
+        <div className={styles.avatar}>
+          {user.name?.charAt(0)}
+        </div>
+        <div>
+          <h2 className={styles.name}>{user.name}</h2>
+          <p className={styles.email}>{user.email}</p>
+        </div>
+      </div>
+      <div className={styles.detailsSection}>
+        <h3 className={styles.detailsTitle}>Account Details</h3>
+        <div className={styles.detailsList}>
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Full Name</span>
+            <span>{user.name}</span>
+          </div>
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Email Address</span>
+            <span>{user.email}</span>
+          </div>
+        </div>
       </div>
       <button
-        className="px-4 py-2 rounded bg-red-600 hover:bg-red-700 font-bold"
         onClick={handleLogout}
+        className={styles.logoutButton}
       >
         Logout
       </button>
@@ -30,4 +55,4 @@ const Profile = () => {
   );
 };
 
-export default Profile; 
+export default Profile;

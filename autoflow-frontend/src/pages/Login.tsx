@@ -2,6 +2,17 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import useAuthStore from '../store/auth';
 import axios from 'axios';
+import styles from './Login.module.css';
+
+// Simple placeholder logo icon
+const Logo = () => (
+  <span className={styles.logoIcon}>
+    <svg viewBox="0 0 24 24" fill="none" className={styles.logoSvg}>
+      <circle cx="12" cy="12" r="10" fill="#3b82f6" />
+      <path d="M12 6v6l4 2" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  </span>
+);
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -9,47 +20,89 @@ const Login = () => {
   const [error, setError] = useState('');
   const setAuth = useAuthStore((s) => s.setAuth);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
     try {
       const res = await axios.post('/api/auth/login', { email, password });
       setAuth(res.data.token, res.data.user);
       navigate('/dashboard');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Login failed');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-sm mx-auto mt-12 p-6 bg-gray-900 rounded shadow">
-      <h2 className="text-2xl font-bold mb-4">Login</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full p-2 rounded bg-gray-800 border border-gray-700"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full p-2 rounded bg-gray-800 border border-gray-700"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
-        />
-        {error && <div className="text-red-400 text-sm">{error}</div>}
-        <button type="submit" className="w-full py-2 rounded bg-blue-600 hover:bg-blue-700 font-bold">Login</button>
-      </form>
-      <div className="mt-4 text-sm text-gray-400">
-        Don&apos;t have an account? <Link to="/register" className="text-blue-400 hover:underline">Register</Link>
+    <div className={styles.pageBg}>
+      {/* Top navbar */}
+      <nav className={styles.navbar}>
+        <div className={styles.navBrand}>
+          <Logo />
+          <span className={styles.brandText}>AutoFlow</span>
+        </div>
+      </nav>
+      {/* Centered form */}
+      <div className={styles.formPanel}>
+        <form
+          onSubmit={handleSubmit}
+          className={styles.formCard}
+        >
+          <h2 className={styles.formTitle}>Welcome back</h2>
+          {error && (
+            <div className={styles.errorBox}>
+              {error}
+            </div>
+          )}
+          <div>
+            <label htmlFor="email" className={styles.inputLabel}>
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              className={styles.inputField}
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="password" className={styles.inputLabel}>
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              className={styles.inputField}
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className={styles.submitButton}
+            disabled={loading}
+          >
+            {loading ? 'Loading...' : 'Login'}
+          </button>
+          <div className={styles.registerText}>
+            Don’t have an account?{' '}
+            <Link to="/register" className={styles.registerLink}>
+              Register
+            </Link>
+          </div>
+        </form>
       </div>
     </div>
   );
 };
 
-export default Login; 
+export default Login;
